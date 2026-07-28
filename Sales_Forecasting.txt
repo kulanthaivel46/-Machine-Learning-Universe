@@ -1,0 +1,48 @@
+# Sales Forecasting using Machine Learning
+
+# Step 1: Import Libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
+
+# Step 2: Create Sample Dataset
+data = {
+    "Month": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "Advertising": [10, 15, 20, 18, 25, 30, 35, 40, 38, 45, 50, 55],
+    "Sales": [100, 120, 150, 145, 180, 210, 230, 260, 255, 290, 320, 350]
+}
+
+df = pd.DataFrame(data)
+
+# Step 3: Select Features and Target
+X = df[["Month", "Advertising"]]
+y = df["Sales"]
+
+# Step 4: Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Step 5: Create Model
+model = LinearRegression()
+
+# Step 6: Train Model
+model.fit(X_train, y_train)
+
+# Step 7: Predict Test Data
+predictions = model.predict(X_test)
+
+print("Predicted Sales:")
+print(predictions)
+
+# Step 8: Calculate Error
+mae = mean_absolute_error(y_test, predictions)
+print("Mean Absolute Error:", mae)
+
+# Step 9: Predict Future Sales
+future_data = [[13, 60]]  # Month 13, Advertising Budget = 60
+
+future_sales = model.predict(future_data)
+
+print("\nPredicted Sales for Next Month:", round(future_sales[0], 2))
